@@ -38,7 +38,7 @@ subprojects {
             }
 
             minSdk = 21
-            targetSdk = 31
+            targetSdk = 32
 
             versionName = "2.11.1"
             versionCode = 211001
@@ -59,7 +59,7 @@ subprojects {
             }
         }
 
-        ndkVersion = "23.0.7599858"
+        ndkVersion = "28.0.12433566 rc1"
 
         compileSdkVersion(defaultConfig.targetSdk!!)
 
@@ -71,15 +71,15 @@ subprojects {
             }
         }
 
-        productFlavors {
-            flavorDimensions("feature")
+        flavorDimensions("feature")
 
+        productFlavors {
             create("alpha") {
                 isDefault = true
-                dimension = flavorDimensionList[0]
+                dimension = "feature"
                 versionNameSuffix = ".Alpha"
 
-                buildConfigField("boolean", "PREMIUM", "Boolean.parseBoolean(\"false\")")
+                buildConfigField("boolean", "PREMIUM", "false")
 
                 resValue("string", "launch_name", "@string/launch_name_alpha")
                 resValue("string", "application_name", "@string/application_name_alpha")
@@ -90,11 +90,10 @@ subprojects {
             }
 
             create("meta") {
-
-                dimension = flavorDimensionList[0]
+                dimension = "feature"
                 versionNameSuffix = ".Meta"
 
-                buildConfigField("boolean", "PREMIUM", "Boolean.parseBoolean(\"false\")")
+                buildConfigField("boolean", "PREMIUM", "false")
 
                 resValue("string", "launch_name", "@string/launch_name_meta")
                 resValue("string", "application_name", "@string/application_name_meta")

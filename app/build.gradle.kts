@@ -3,9 +3,9 @@ import java.nio.file.Files
 import java.nio.file.StandardCopyOption
 
 plugins {
+    id("com.android.application")
     kotlin("android")
     kotlin("kapt")
-    id("com.android.application")
 }
 
 dependencies {
@@ -26,19 +26,18 @@ dependencies {
     implementation(libs.google.material)
 }
 
-tasks.getByName("clean", type = Delete::class) {
+tasks.named("clean", Delete::class) {
     delete(file("release"))
+    delete(file("src/main/assets"))
 }
 
 val geoFilesDownloadDir = "src/main/assets"
 
-task("downloadGeoFiles") {
-
+tasks.register("downloadGeoFiles") {
     val geoFilesUrls = mapOf(
         "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geoip.metadb" to "geoip.metadb",
         "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/geosite.dat" to "geosite.dat",
-        // "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/country.mmdb" to "country.mmdb",
-        "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb" to "ASN.mmdb",
+        "https://github.com/MetaCubeX/meta-rules-dat/releases/download/latest/GeoLite2-ASN.mmdb" to "ASN.mmdb"
     )
 
     doLast {
@@ -54,16 +53,6 @@ task("downloadGeoFiles") {
     }
 }
 
-afterEvaluate {
-    val downloadGeoFilesTask = tasks["downloadGeoFiles"]
-
-    tasks.forEach {
-        if (it.name.startsWith("assemble")) {
-            it.dependsOn(downloadGeoFilesTask)
-        }
-    }
-}
-
-tasks.getByName("clean", type = Delete::class) {
-    delete(file(geoFilesDownloadDir))
+tasks.withType<org.gradle.api.tasks.bundling.AbstractArchiveTask> {
+    dependsOn("downloadGeoFiles")
 }
