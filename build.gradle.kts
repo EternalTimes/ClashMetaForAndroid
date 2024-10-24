@@ -32,13 +32,15 @@ subprojects {
     apply(plugin = if (isApp) "com.android.application" else "com.android.library")
 
     extensions.configure<BaseExtension> {
+        namespace = "com.github.metacubex.clash"
+
         defaultConfig {
             if (isApp) {
                 applicationId = "com.github.metacubex.clash"
             }
 
             minSdk = 21
-            targetSdk = 32
+            targetSdk = 33 // Updated from 32 to 33 to resolve dependency issues
 
             versionName = "2.11.1"
             versionCode = 211001
@@ -61,7 +63,7 @@ subprojects {
 
         ndkVersion = "28.0.12433566 rc1"
 
-        compileSdkVersion(defaultConfig.targetSdk!!)
+        compileSdkVersion(33) // Updated to at least 33 to meet dependency requirements
 
         if (isApp) {
             packagingOptions {
@@ -145,6 +147,7 @@ subprojects {
         }
 
         buildFeatures.apply {
+            buildConfig = true
             dataBinding {
                 isEnabled = name != "hideapi"
             }
