@@ -19,8 +19,8 @@ dependencyResolutionManagement {
     versionCatalogs {
         create("libs") {
             val agp = "8.7.0"
-            val kotlin = "1.9.24"   // Updated
-            val ksp = "$kotlin-1.0.20"  // Updated
+            val kotlin = "2.0.21"   // Updated
+            val ksp = "$kotlin-1.0.25"  // Updated
             val golang = "1.0.4"
             val coroutine = "1.8.0" // Updated
             val coreKtx = "1.8.0"
